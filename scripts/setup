@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -eu
+
+cd "$(dirname "${0}")/../"
+
+if [ -z "${VIRTUAL_ENV}" ]; then
+    echo "Run this command from within a virtualenv"
+    exit 1
+fi
+
+if ! python --version 2>&1 | grep -q "Python 3"; then
+    echo "This project requires Python 3."
+    exit 1
+fi
+
+echo "Initializing database..."
+
+flask db upgrade
+
+echo "Setup completed"
